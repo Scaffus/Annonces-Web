@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container p-5">
+    <div class="rounded-1 border border-1 p-3">
+        <div class="text-light">
+            <form class="row g-3" action="/login" method="POST">
+                <div class="col-12">
+                    <label for="inputMail" class="form-label">Mail</label>
+                    <input type="text" id="inputMail" class="form-control" name="mail" placeholder="example@example.com">
+                </div>
+                <div class="col-md">
+                    <label for="inputPassword" class="form-label">Mot de passe</label>
+                    <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Mot de passe">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
