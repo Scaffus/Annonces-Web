@@ -29,7 +29,7 @@ def home():
         title           = request.form['title']
         description     = request.form['description']
         mailName        = request.form['mailName']
-        mailHost        = request.form['mailHosr']
+        mailHost        = request.form['mailHost']
         price           = request.form['price']
         username        = request.form['username']
         asset_condition = request.form['assetCondition']
@@ -50,7 +50,7 @@ def home():
     else:
 
         allPosts = Post.query.order_by(Post.id.desc()).all()
-        return render_template('index.html', posts=allPosts)
+        return render_template('index.html', annonces=allPosts)
 
 @app.route('/post/delete/<int:id>')
 def delete(id):
