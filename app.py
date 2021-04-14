@@ -18,7 +18,7 @@ class Post(db.Model):
     asset_condition = db.Column(db.Text, nullable = False)
 
     def __repr__(self):
-        return 'Post ' + str(self.id)
+        return '<Annonce: {}>'.format(str(self.id))
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -66,6 +66,13 @@ def delete(id):
 def new_post():
 
     return render_template('newPost.html')
+
+@app.route('/annonce/<int:id>')
+def annonce(id):
+    
+    annonce = Post.query.filter_by(id=id).first()
+
+    return render_template('index.html', requestAnnonce=annonce)
 
 if __name__ == '__main__':
     app.run(debug = True)
