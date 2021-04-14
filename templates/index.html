@@ -6,6 +6,13 @@
 
 {% block body %}
 
+{% if error %}
+<div class="m-5" style="text-align: center;">
+  <h2 class="text-light">{{ error }}</h2>
+  <h5><a href="/" class="text-muted">Retourner à la page d'acceuil</a></h5>
+</div>
+{% endif %}
+
 {% if requestAnnonce %}
 
 <div class="card mb-4 shadow-sm border border-1 bg-dark text-light">
@@ -32,7 +39,7 @@
       <p>Vendeur: {{ requestAnnonce.username }} | Contacte: <a href="mailto:{{ requestAnnonce.mail }}">{{
           requestAnnonce.mail }}</a></p>
     </ul>
-    <a href="post/delete/{{requestAnnonce.id}}" method="delete_post" class="btn btn-outline-danger">
+    <a href="delete/{{requestAnnonce.id}}" class="btn btn-outline-danger">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle"
         viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -53,7 +60,7 @@
 
       <div class="col">
         <div class="card bg-dark text-light border border-1 rounded-1">
-          <img src="/static/images/DEFAULT.jpeg" class="card-img-top" alt="Image pour: {{ annonce.title }}">
+          <img src="/static/images/annonces/img_annonce_{{ annonce.id }}.jpg" width="414" height="232" class="card-img-top" alt="Image pour: {{ annonce.title }}">
           <div class="card-body">
             <h5 class="card-title">{{ annonce.title }}</h5>
             <p class="card-text">{{ annonce.price }}€</p>

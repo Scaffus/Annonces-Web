@@ -5,7 +5,7 @@
 
 <div class="p-5">
   <div class="container border border-1 rounded p-3">
-    <form action="/" method="POST">
+    <form action="/annonce/create" method="POST" enctype="multipart/form-data">
 
       <div class="input-group mb-3">
         <!-- <span class="input-group-text">Prénom</span>
@@ -54,6 +54,12 @@
         <span class="input-group-text">Description du bien</span>
         <textarea name="description" class="form-control" aria-label="Description du bien"
           placeholder="Bonjour/Bonsoir, Je vends mon bien car .... il n'a servi que .... remise en main propre/livraison"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <br>
+        <label for="formFile" class="form-label text-light">Ajouter une image</label>
+        <input name="image" class="form-control" type="file" id="formFile">
       </div>
 
       <div class="input-group mt-3">
