@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>LesBonnesAffaires.fr</title>
+{% endblock %}
+
+{% block body %}
+<nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">LesBonnesAffaires.fr</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExample02">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Annonces</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/newPost">Poster Une Annonce</a>
+          </li>
+        </ul>
+        <form>
+          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+        </form>
+      </div>
+    </div>
+  </nav>
+
+<form action="/" method="POST">
+  <div class="col-12">
+    <label for="title" class="form-label">Titre</label>
+    <div class="input-group has-validation">
+      <input type="text" name="title" class="form-control" id="titre" placeholder="Mon annonce" required="">
+    <div class="invalid-feedback">
+        Un titre est requis.
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <label for="description" class="form-label">Description</label>
+    <div class="input-group has-validation">
+      <input type="text" name="description" class="form-control" id="description" placeholder="Je vends mon (bien) car (raisons)." required="">
+    <div class="invalid-feedback">
+        Une description est requise.
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <label for="price" class="form-label">Prix</label>
+    <div class="input-group has-validation">
+      <span class="input-group-text">€</span>
+      <input type="text" name="price" class="form-control" id="price" placeholder="1" required="">
+    <div class="invalid-feedback">
+        Un prix est requis.
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+        <div class="col-12">
+          <label for="username" class="form-label">Pseudonyme</label>
+          <div class="input-group has-validation">
+            <input type="text" name="username" class="form-control" id="username" placeholder="username" required="">
+          <div class="invalid-feedback">
+              Un pseudonyme est requis.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" name="mail" class="form-control" id="email" placeholder="mail@exemple.com">
+          <div class="invalid-feedback">
+            Entrez une adresse mail valide.
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <label for="zip_code" class="form-label">Code Postal</label>
+          <input type="text" name="zip_code" class="form-control" id="zip_code" placeholder="78120" required="">
+          <div class="invalid-feedback">
+            Un code postal valide requis.
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <input class="w-100 btn btn-primary btn-lg" type="submit">Poster</button>
+    </form>
+  </div>
+</form>
+
+<form action="/" method="POST">
+    Titre: <input type="text" name="title" class="form" id="title">
+    Description: <input type="text" name="description" class="form" id="description">
+    Mail: <input type="text" name="mail" class="form" id="mail">
+
+    <input type="submit" name="submit" class="form" id="submit">
+</form>
+
+{% endblock %}
