@@ -19,9 +19,9 @@ login_manager.login_view = 'login'
 login_manager.init_app(app)
 
 @login_manager.user_loader
-def load_user(id):
+def load_user(mail):
 
-    return User.query.get(int(id))
+    return User.query.get(mail)
 
 class Post(db.Model):
 
@@ -40,8 +40,17 @@ class Post(db.Model):
 class User(db.Model, UserMixin):
     id       = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80))
-    mail    = db.Column(db.String(120))
+    mail     = db.Column(db.String(120))
     password = db.Column(db.String(80))
+
+    def is_active(self):
+        return True
+
+    def is_authenticated(self):
+        return self.authenticated
+
+    def is_anonymous(self):
+        return False
 
 @app.route('/')
 def index():
@@ -63,6 +72,9 @@ def login():
             if check_password_hash(user.password, password):
                 flash('Vous avez été connecté avec succès!', category='success')
                 login_user(user, remember=True)
+
+                return redirect(url_for('index'))
+
             else:
                 flash('Le mot de passe est incorrect.', category='error')
         else:
@@ -80,17 +92,22 @@ def register():
         mail     = request.form['mail']
 
         user = User.query.filter_by(mail=mail).first()
-        if user:
-            flash('L\'addresse email existe déjà.', category='error')
 
-        elif len(mail) < 4:
-            flash('L\'addresse mail doit contennir plus de 3 caractères.', category='error')
+        if user:
+            flash('L\'addresse email existe déjà. {}'.format(user.username + ' ' + user.mail + ' ' + ' ' + user.password), category='error')
+            return redirect(url_for('register'))
 
         elif len(username) < 3:
             flash('Le pseudonyme doit contennir plus de 2 caractères.', category='error')
+            return redirect(url_for('register'))
 
-        elif len(mail) < 8:
+        elif len(password) < 8:
             flash('Le mot de passe doit faire au moins 8 caractères.', category='error')
+            return redirect(url_for('register'))
+            
+        elif len(mail) < 4:
+            flash('L\'addresse mail doit contennir plus de 3 caractères.', category='error')
+            return redirect(url_for('register'))
 
         else:
             newUser = User(username=username, mail=mail, password=generate_password_hash(password, method='sha256'))
@@ -98,7 +115,7 @@ def register():
             db.session.add(newUser)
             db.session.commit()
 
-            login_user(user, remember=True)
+            login_user(newUser, remember=True)
 
             flash('Compte créé avec succès!', category='success')
 
@@ -137,7 +154,7 @@ def all_post():
 
             if image:
     
-                image.save('img_annonce_{}.png'.format(newPost.id))
+                image.save(os.path.join(app.config['UPLOAD_FOLDER'], 'img_annonce_{}.png'.format(newPost.id)))
         
     return redirect(url_for('index'))
 

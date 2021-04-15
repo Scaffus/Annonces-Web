@@ -15,39 +15,45 @@
 
 {% if requestAnnonce %}
 
-<div class="card mb-4 shadow-sm border border-1 bg-dark text-light">
-  <div class="card-header">
-    <h4 class="my-0 fw-normal">{{ requestAnnonce.title }}</h4>
-  </div>
-  <div class="card-body">
-    <h1 class="card-title pricing-card-title">{{ requestAnnonce.price }} €<small class="text-muted"></small></h1>
-    <ul class="list-unstyled mt-3 mb-4">
-      <span class="input-group-text">{{ requestAnnonce.description }}</span>
-      <div class="mt-3 mb-2">
-        {% if requestAnnonce.asset_condition == '5' %}
-        <span class="badge bg-primary">Neuf</span>
-        {% elif requestAnnonce.asset_condition == '4' %}
-        <span class="badge bg-info">Très bon état</span>
-        {% elif requestAnnonce.asset_condition == '3' %}
-        <span class="badge bg-success">Bon état</span>
-        {% elif requestAnnonce.asset_condition == '2' %}
-        <span class="badge bg-warning">Assez bon état</span>
-        {% elif requestAnnonce.asset_condition == '1' %}
-        <span class="badge bg-danger">Etat médiocre</span>
-        {% endif %}
-      </div>
-      <p>Vendeur: {{ requestAnnonce.username }} | Contacte: <a href="mailto:{{ requestAnnonce.mail }}">{{
-          requestAnnonce.mail }}</a></p>
-    </ul>
-    <a href="delete/{{requestAnnonce.id}}" class="btn btn-outline-danger">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle"
-        viewBox="0 0 16 16">
-        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-        <path
-          d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-      </svg>
-      Delete
-    </a>
+<div class="container mt-5">
+  <div class="card mb-4 shadow-sm border border-1 bg-dark text-light">
+    <div class="card-header">
+      <h4 class="my-0 fw-normal">{{ requestAnnonce.title }}</h4>
+    </div>
+    <div class="card-body">
+      <h1 class="card-title pricing-card-title">{{ requestAnnonce.price }} €<small class="text-muted"></small></h1>
+      <ul class="list-unstyled mt-3 mb-4">
+        <span class="input-group-text">{{ requestAnnonce.description }}</span>
+        <div class="mt-3 mb-2">
+          {% if requestAnnonce.asset_condition == '5' %}
+          <span class="badge bg-primary">Neuf</span>
+          {% elif requestAnnonce.asset_condition == '4' %}
+          <span class="badge bg-info">Très bon état</span>
+          {% elif requestAnnonce.asset_condition == '3' %}
+          <span class="badge bg-success">Bon état</span>
+          {% elif requestAnnonce.asset_condition == '2' %}
+          <span class="badge bg-warning">Assez bon état</span>
+          {% elif requestAnnonce.asset_condition == '1' %}
+          <span class="badge bg-danger">Etat médiocre</span>
+          {% endif %}
+        </div>
+        <p>Vendeur: {{ requestAnnonce.username }} | Contact: <a href="mailto:{{ requestAnnonce.mail }}">{{
+            requestAnnonce.mail }}</a></p>
+      </ul>
+      {% if user.is_authenticated %}
+      {% if user.username.lower() == requestAnnonce.username.lower() %}
+      <a href="delete/{{requestAnnonce.id}}" class="btn btn-outline-danger">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle"
+          viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+          <path
+            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+        </svg>
+        Supprimer l'annonce
+      </a>
+      {% endif %}
+      {% endif %}
+    </div>
   </div>
 </div>
 
@@ -56,11 +62,14 @@
 <div class="album py-5 bg-dark">
   <div class="container">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+
+      {% if annonces %}
       {% for annonce in annonces %}
 
       <div class="col">
         <div class="card bg-dark text-light border border-1 rounded-1">
-          <img src="/static/images/annonces/img_annonce_{{ annonce.id }}.jpg" width="414" height="232" class="card-img-top" alt="Image pour: {{ annonce.title }}">
+          <img src="/static/images/annonces/img_annonce_{{ annonce.id }}.jpg" width="414" height="232"
+            class="card-img-top" alt="Image pour: {{ annonce.title }}">
           <div class="card-body">
             <h5 class="card-title">{{ annonce.title }}</h5>
             <p class="card-text">{{ annonce.price }}€</p>
@@ -78,17 +87,33 @@
               {% endif %}
             </div>
             <p class="card-text">Vendeur: {{ annonce.username }}</p>
+            <p class="card-text text-muted fst-italic">{{ annonce.date.replace(microsecond=0) }}</p>
             <a href="/annonce/{{ annonce.id }}" class="btn btn-primary">Plus d'informations</a>
+            <br>
+            {% if user.is_authenticated %}
+            {% if user.username.lower() == annonce.username.lower() %}
+            <span class="border rounded-bottom bg-dark p-2 mt-3 position-absolute end-0">Votre annonce</span>
+            {% endif %}
+            {% endif %}
           </div>
         </div>
       </div>
-
 
       {% endfor %}
 
     </div>
   </div>
 </div>
+
+{% else %}
+
+<div class="" style="text-align: center;">
+  <h2 class="text-light">Hmm, il n'y a pas l'air d'avoir d'annonces sur cette page, soyez le premier à en poster une !
+  </h2>
+  <h5><a href="/annonce/new" class="text-muted">Nouvelle annonce</a></h5>
+</div>
+
+{% endif %}
 
 {% endif %}
 
