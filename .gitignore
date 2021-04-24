@@ -2,3 +2,5 @@
 requirements.txt
 .vscode/settings.json
 *.json
+static/images/annonces/img_annonce_1.jpg
+*.png
